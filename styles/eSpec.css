@@ -1,0 +1,45 @@
+html
+{
+    height: 100%;
+    margin:0px;
+    overflow: hidden;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    margin:0px;
+    height: 100%;
+    overflow: hidden;
+    grid-gap: 0px;
+}
+svg {
+    width: 100%;
+    height: 100%;
+    background: lightblue;
+}
+.top_pane {
+    width: 100%;
+    height: 50px;
+    background: bisque;
+}
+.bottom_pane {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background: bisque;
+    vertical-align: center;
+    padding-left: 10px;
+}
+.lateral_pane {
+    width: 400px;
+    height: 100%;
+    background: darkgrey;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+#information_message {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
