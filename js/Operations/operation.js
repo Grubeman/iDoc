@@ -17,6 +17,7 @@ class Operation {
     }
 
     static get_modal_data() {
+        console.error("I should not be here")
         return
     }
 

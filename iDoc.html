@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link  rel="stylesheet" href="styles/eSpec.css">
+    <link  rel="stylesheet" href="styles/modal.css">
+    <link  rel="stylesheet" href="styles/dropdown.css">
+</head>
+<body>
+<div class="top_pane">
+    <div class="dropdown">
+        <button class="dropbtn">Inputs / Outputs</button>
+        <div class="dropdown-content">
+            <a id="createInput" class="link" href="#" onclick="show_modal('input');">Input</a>
+            <a id="createOutput" class="link" href="#" onclick="show_modal('output');">Output</a>
+            <a class="link" href="#">Link 3</a>
+        </div>
+    </div>
+</div>
+<div style="display: flex; height: 100%">
+    <svg></svg>
+    <div id="right_pane" class="lateral_pane"></div>
+    </div>
+    <div class="bottom_pane">
+        <span id="information_message">Something important</span>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <!-- Modal content -->
+
+    <div class="modal-content">
+        <span id="modal_close" class="close">&times;</span>
+    </div>
+</div>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+
+<script src="js/modal.js"></script>
+<script src="js/Operations/operation.js"></script>
+<script src="js/Operations/input.js"></script>
+<script src="js/Operations/output.js"></script>
+<script src="js/idoc.js"></script>
+<script src="js/Connections/connection.js"></script>
+</body>
+</html>

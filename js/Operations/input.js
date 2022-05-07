@@ -71,7 +71,7 @@ class InputOperation extends Operation{
         reader.onload = function(e) {
             let text = reader.result;                 // the entire file
             let firstLine = text.split('\n').shift(); // first line
-            let operation = new InputOperation(null)
+            let operation = new InputOperation(null, input.files[0], "csv")
             operation.fields = firstLine.trim().split(";")
             operations.push(operation)
             draw_board()
