@@ -1,8 +1,8 @@
-class Operation {
-    constructor(parent) {
+class State {
+    constructor(inbound) {
         this._uid = uuid.v4()
-        this.parent = parent
-        this.childs = []
+        this.inbound_transformation = inbound
+        this.outbound_transformations = []
         this.label = undefined
         this.x = 0
         this.y = 0

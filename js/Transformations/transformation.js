@@ -1,4 +1,4 @@
-class Connection {
+class Transformation {
     constructor(from_op, to_op) {
         this._uid = uuid.v4()
         this.from_op = from_op

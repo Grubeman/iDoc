@@ -1,18 +1,21 @@
-var operations = []
-var connections = []
+var states = []
+var transformations = []
 
 function show_modal(mode) {
 
-    let elem = document.getElementById("modal_close");
-    elem.onclick = function() {
-        modal.style.display = "none";
-    }
+
     if (mode === 'input') {
-        set_modal_content(InputOperation.get_modal_data())
+        let elem = document.getElementsByClassName("modal-content")[0]
+        elem.innerHTML = ejs.render(InputState.modal_data)
     }
 
     if (mode === 'output') {
-        set_modal_content(OutputOperation.get_modal_data())
+        let elem = document.getElementsByClassName("modal-content")[0]
+        elem.innerHTML = ejs.render(OutputState.modal_data)
+    }
+    let elem = document.getElementById("modal_close");
+    elem.onclick = function() {
+        modal.style.display = "none";
     }
     modal.style.display = "block";
 
@@ -82,8 +85,8 @@ function connectiondragged(event, p) {
 function connectionended(event, p) {
     let dest_id = document.elementsFromPoint(event.sourceEvent.clientX, event.sourceEvent.clientY)[1].id
     d3.select("#new_line").remove()
-    let conn = new Connection(event.subject, d3.select("#"+dest_id).data()[0])
-    connections.push(conn)
+    let conn = new Transformation(event.subject, d3.select("#"+dest_id).data()[0])
+    transformations.push(conn)
     draw_board()
 
     d3.selectAll(".operationInRect").style("display", "none")
@@ -121,11 +124,11 @@ function update_board() {
             return d.y
         })
     d3.selectAll(".operationOutRect")
-        .attr("x", (d) => {
-            return d.x + d.width
+        .attr("cx", (d) => {
+            return d.x + d.width + 5
         })
-        .attr("y", (d) => {
-            return d.y + d.height / 2.0 - 10
+        .attr("cy", (d) => {
+            return d.y + d.height / 2.0
         })
     d3.selectAll(".operationInRect")
         .attr("x", (d) => {
@@ -142,7 +145,7 @@ function update_board() {
     d3.selectAll(".connection")
         .attr("x1", (d) => {
             console.log("x1", d)
-            return d.from_op.x + d.from_op.width + 20
+            return d.from_op.x + d.from_op.width
         })
         .attr("y1", (d) => {
             return d.from_op.y + d.from_op.height / 2.0
@@ -156,9 +159,9 @@ function update_board() {
 }
 
 function draw_board() {
-
+    console.log("states", states)
     d3.select("svg").selectAll(".connection")
-        .data(connections)
+        .data(transformations)
         .enter()
         .append("line")
         .attr("id", (d) => {
@@ -168,8 +171,8 @@ function draw_board() {
         .style("stroke", "black")
         .style("stroke-width", "3px")
 
-    var g = d3.select("svg").selectAll(".operationGroup")
-        .data(operations)
+    var go = d3.select("svg").selectAll(".operationGroup")
+        .data(states)
         .enter()
         .append("g")
         .attr("class", "operationGroup")
@@ -180,7 +183,7 @@ function draw_board() {
             return "translate("+d.x.toString()+","+d.y.toString()+")"
         })
 
-    g.append("rect")
+    go.append("rect")
         .attr("class", "operationRect")
         .attr("id", (d) => {
             return "main_"+d._uid
@@ -210,7 +213,7 @@ function draw_board() {
             d3.select(event.target).style("stroke", "red")
         })
 
-    g.append("rect")
+    go.append("rect")
         .attr("class", "operationDragRect")
         .attr("id", (d) => {
             return "drag_"+d._uid
@@ -230,7 +233,7 @@ function draw_board() {
             .on("end", dragended)
     )
 
-    g.append("text")
+    go.append("text")
         .attr("class", "operationTitle")
         .attr("id", (d) => {
             return "title_"+d._uid
@@ -242,26 +245,38 @@ function draw_board() {
         .style("text-anchor", "start")
         .style("alignment-baseline", "mathematical")
 
-    g.append("rect")
+    go.filter(function(d,i){ return !OutputState.prototype.isPrototypeOf(d) })
+        .append("circle")
         .attr("class", "operationOutRect")
         .attr("id", (d) => {
             return "out_"+d._uid
         })
-        .attr("width", (d) => {
-            return 20
-        })
-        .attr("height", (d) => {
-            return 20
+        .attr("r", (d) => {
+            return 5
         })
         .attr("fill", (d) => {
             return "green"
-        }).call(
-        d3.drag()
-            .on("start", connectionstarted)
-            .on("drag", connectiondragged)
-            .on("end", connectionended)
-    )
-    g.append("rect")
+        })
+        .on("dblclick", (event, d) => {
+            console.log("dbl", d)
+            let op = new State(d)
+            op.x = d.x + d.width + 50
+            op.y = d.y
+            states.push(op)
+            conn = new Transformation(d, op)
+            transformations.push(conn)
+
+            draw_board()
+
+        })
+        .call(
+            d3.drag()
+                .on("start", connectionstarted)
+                .on("drag", connectiondragged)
+                .on("end", connectionended)
+        )
+    go.filter(function(d,i){ return !InputState.prototype.isPrototypeOf(d) })
+        .append("rect")
         .attr("class", "operationInRect")
         .attr("id", (d) => {
             return "in_"+d._uid
