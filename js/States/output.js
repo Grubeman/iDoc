@@ -6,7 +6,9 @@ class OutputState extends State{
         this.options = options
         this.color = "yellow"
     }
-
+    static description_template = `
+        No output description
+    `
     static modal_data = `
         <span id="modal_close" class="close">&times;</span>
         <input type=file id=fileUpload name=fileUpload/>

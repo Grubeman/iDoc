@@ -6,20 +6,10 @@ class InputState extends State{
         this.options = options
         this.color = "light_green"
     }
+    static description_template = `
+        No input description
+    `
 
-    get_description_data() {
-        let fieldsData = []
-        this.fields.forEach(field => {
-            console.log("field", field)
-            fieldsData.push(
-                {
-                    "tag" : "span",
-                    "innerText" : field
-                }
-            )
-        })
-        return fieldsData
-    }
     static modal_data = `
         <span id="modal_close" class="close">&times;</span>
         <input type=file id=fileUpload name=fileUpload/>
@@ -31,7 +21,7 @@ class InputState extends State{
         <select>
             <option value="semicolon">;</option>
         </select>
-        <button onclick="OutputState.create(modal, states)">Analyze</button>
+        <button onclick="InputState.create(modal, states)">Analyze</button>
     `;
     static create(modal, states) {
         let input  = document.getElementById('fileUpload'); // get the input

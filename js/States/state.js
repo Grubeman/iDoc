@@ -11,15 +11,14 @@ class State {
         this.color = "gray"
         this.fields = []
     }
-    get_description_data() {
-        console.error("I should not be here")
-        return
-    }
+    static description_template = `
+        No description
+    `
 
-    static get_modal_data() {
-        console.error("I should not be here")
-        return
-    }
+
+    static modal_data = `
+        Invalid class
+    `
 
     static create(modal) {
         modal.style.display = "none";

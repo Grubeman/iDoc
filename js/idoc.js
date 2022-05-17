@@ -199,14 +199,9 @@ function draw_board() {
         })
         .on("click", (event, d) => {
             let pane = document.getElementById("right_pane")
-            let children = pane.children
-            let array = [ ...children]
-            array.forEach(child => {
-                child.remove()
-            })
-            d.get_description_data().forEach(elem_data => {
-                append_elem(pane, elem_data)
-            })
+            let construct = Object.getPrototypeOf(d).constructor
+            pane.innerHTML =  ejs.render(construct.description_template)
+
             d3.select(event.target).style("stroke", "black")
         })
         .on("mouseover", (event, d) => {
