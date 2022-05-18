@@ -145,21 +145,20 @@ function update_board() {
     d3.selectAll(".connection")
         .attr("x1", (d) => {
             console.log("x1", d)
-            return d.from_op.x + d.from_op.width
+            return d.from_state.x + d.from_state.width
         })
         .attr("y1", (d) => {
-            return d.from_op.y + d.from_op.height / 2.0
+            return d.from_state.y + d.from_state.height / 2.0
         })
         .attr("x2", (d) => {
-            return d.to_op.x
+            return d.to_state.x
         })
         .attr("y2", (d) => {
-            return  d.to_op.y + d.to_op.height / 2.0
+            return  d.to_state.y + d.to_state.height / 2.0
         })
 }
 
 function draw_board() {
-    console.log("states", states)
     d3.select("svg").selectAll(".connection")
         .data(transformations)
         .enter()
@@ -170,7 +169,16 @@ function draw_board() {
         .attr("class", "connection")
         .style("stroke", "black")
         .style("stroke-width", "3px")
+        .on("click", (event, d) => {
+            let pane = document.getElementById("right_pane")
+            let construct = Object.getPrototypeOf(d).constructor
+            pane.innerHTML =  ejs.render(construct.description_template, {"transfo":d})
 
+            d3.select(event.target).style("stroke", "black")
+        })
+        .on("mouseover", (event, d) => {
+            d3.select(event.target).style("stroke", "red")
+        })
     var go = d3.select("svg").selectAll(".operationGroup")
         .data(states)
         .enter()
@@ -200,7 +208,7 @@ function draw_board() {
         .on("click", (event, d) => {
             let pane = document.getElementById("right_pane")
             let construct = Object.getPrototypeOf(d).constructor
-            pane.innerHTML =  ejs.render(construct.description_template)
+            pane.innerHTML =  ejs.render(construct.description_template, {"state":d})
 
             d3.select(event.target).style("stroke", "black")
         })
@@ -253,12 +261,11 @@ function draw_board() {
             return "green"
         })
         .on("dblclick", (event, d) => {
-            console.log("dbl", d)
             let op = new State(d)
             op.x = d.x + d.width + 50
             op.y = d.y
             states.push(op)
-            conn = new Transformation(d, op)
+            conn = new SelectTransformation(d, op)
             transformations.push(conn)
 
             draw_board()

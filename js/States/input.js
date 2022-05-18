@@ -1,13 +1,19 @@
 class InputState extends State{
     constructor(inbound, path, input_type, options) {
         super(inbound)
+        this.label = "test"
         this.path = path
         this.input_type = input_type
         this.options = options
         this.color = "light_green"
     }
     static description_template = `
-        No input description
+        <h1 class="description_title"><%=state.label%></h1>
+        <div class="description_fields">
+            <% for(var i=0; i<state.fields.length; i++) {%>
+                <p><%= state.fields[i] %></p>
+            <% } %>
+        </div>
     `
 
     static modal_data = `
