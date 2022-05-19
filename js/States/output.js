@@ -34,7 +34,7 @@ class OutputState extends State{
 
             let state = new OutputState(null)
             states.push(state)
-            draw_board()
+            board.draw()
             modal.style.display = "none";
             console.log(states);                   // use the console for debugging
         }

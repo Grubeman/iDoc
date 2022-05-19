@@ -15,7 +15,6 @@ class State {
         No description
     `
 
-
     static modal_data = `
         Invalid class
     `

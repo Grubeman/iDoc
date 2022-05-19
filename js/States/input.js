@@ -18,16 +18,22 @@ class InputState extends State{
 
     static modal_data = `
         <span id="modal_close" class="close">&times;</span>
-        <input type=file id=fileUpload name=fileUpload/>
-        <span>format</span>
-        <select>
-            <option value="csv">csv</option>
-        </select>
-        <span>delimiter</span>
-        <select>
-            <option value="semicolon">;</option>
-        </select>
-        <button onclick="InputState.create(modal, states)">Analyze</button>
+        <div style="display:flex;flex-direction: column">
+            <input style="margin:auto;padding:10px" type=file id=fileUpload name=fileUpload/>
+            <div style="margin:auto;padding:10px">
+                <span>format</span>
+                <select>
+                    <option value="csv">csv</option>
+                </select>
+            </div>
+            <div style="margin:auto;padding:10px">
+                <span>delimiter</span>
+                <select>
+                    <option value="semicolon">;</option>
+                </select>
+            </div>
+            <button style="margin:auto;padding:10px" onclick="InputState.create(modal, states)">Analyze</button>
+        </div>
     `;
     static create(modal, states) {
         let input  = document.getElementById('fileUpload'); // get the input
@@ -39,8 +45,10 @@ class InputState extends State{
             let firstLine = text.split('\n').shift(); // first line
             let state = new InputState(null, input.files[0], "csv")
             state.fields = firstLine.trim().split(";")
+            state.x = 30
+            state.y = 30
             states.push(state)
-            draw_board()
+            board.draw()
             modal.style.display = "none";             // use the console for debugging
         }
 
