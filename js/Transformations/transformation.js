@@ -13,8 +13,11 @@ class Transformation {
 }
 
 class SelectTransformation extends Transformation {
-    static status = ["&#8594;", "&#10060;"]
-
+    static status = ["keep", "remove"]
+    static status_symbols = {
+        "keep": "&#8594;",
+        "remove": "&#10060;"
+    }
 
     constructor(from_state, to_state) {
         super(from_state, to_state)
@@ -34,7 +37,7 @@ class SelectTransformation extends Transformation {
         <h1 class="description_title"><%=transfo.label%></h1>
         <div class="description_fields">
             <% for(var i=0; i<transfo.fields.length; i++) {%>
-                <p><%= transfo.fields[i][0] %> <span style="color:red" onclick="SelectTransformation.switch_field('<%=transfo._uid%>', <%=i%>);"><%- transfo.fields[i][2] %></span> <%= transfo.fields[i][1] %></p>
+                <p><%= transfo.fields[i][0] %> <span style="color:red" onclick="SelectTransformation.switch_field('<%=transfo._uid%>', <%=i%>);"><%- SelectTransformation.status_symbols[transfo.fields[i][2]] %></span> <% if(transfo.fields[i][2] !== "remove"){ %><%= transfo.fields[i][1] %><% } %></p>
             <% } %>
         </div>
     `

@@ -8,7 +8,7 @@ class State {
         this.y = 0
         this.width = 100
         this.height = 100
-        this.color = "gray"
+        this.color = "lightgray"
         this.fields = []
     }
     static description_template = `

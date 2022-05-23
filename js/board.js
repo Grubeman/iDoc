@@ -161,7 +161,7 @@ class Board {
                 states.push(op)
                 let conn = new SelectTransformation(d, op)
                 d.fields.forEach((f) => {
-                    conn.fields.push([f, f, "&#8594;"])
+                    conn.fields.push([f, f, "keep"])
                 })
                 transformations.push(conn)
 
